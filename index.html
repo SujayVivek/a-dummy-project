@@ -3,29 +3,423 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>The Morning Ledger</title>
+    <style>
+        :root {
+            --paper: #f5efdf;
+            --paper-dark: #e8dfcb;
+            --ink: #171614;
+            --muted-ink: #444039;
+            --rule: #2c2821;
+            --accent: #8f2f1f;
+            --shadow: rgba(30, 24, 16, 0.22);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 10% 15%, #faf5e9 0%, transparent 35%),
+                radial-gradient(circle at 92% 88%, #efe4cd 0%, transparent 33%),
+                linear-gradient(135deg, #ebe0c8, #d9c9a9);
+            font-family: "Georgia", "Times New Roman", serif;
+            line-height: 1.5;
+            padding: 2rem 1rem;
+        }
+
+        .newspaper {
+            max-width: 1280px;
+            margin: 0 auto;
+            background: repeating-linear-gradient(
+                    to bottom,
+                    rgba(255, 255, 255, 0.24) 0,
+                    rgba(255, 255, 255, 0.24) 1px,
+                    transparent 1px,
+                    transparent 30px
+                ),
+                var(--paper);
+            border: 2px solid var(--rule);
+            box-shadow: 0 12px 38px var(--shadow);
+            padding: 1.4rem;
+        }
+
+        .masthead {
+            border-top: 6px double var(--rule);
+            border-bottom: 6px double var(--rule);
+            text-align: center;
+            padding: 1rem 0;
+            margin-bottom: 1rem;
+        }
+
+        .masthead h1 {
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.2rem;
+            font-size: clamp(2rem, 5vw, 4rem);
+            line-height: 1;
+        }
+
+        .meta {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 0.7rem;
+            font-size: 0.87rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+            color: var(--muted-ink);
+        }
+
+        .front-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 0.9rem;
+            align-items: start;
+        }
+
+        article {
+            border: 1px solid var(--rule);
+            padding: 0.85rem;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.3), transparent 60%);
+        }
+
+        .kicker {
+            margin: 0;
+            font-size: 0.73rem;
+            letter-spacing: 0.08rem;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        h2,
+        h3,
+        h4 {
+            margin: 0.25rem 0 0.55rem;
+            line-height: 1.15;
+            font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+        }
+
+        h2 {
+            font-size: clamp(1.4rem, 2.2vw, 2rem);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+        }
+
+        h4 {
+            font-size: 1.05rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05rem;
+        }
+
+        p {
+            margin: 0.5rem 0;
+            text-align: justify;
+            font-size: 0.95rem;
+            text-indent: 1.2rem;
+            color: #1f1d1a;
+        }
+
+        .lead {
+            grid-column: 2;
+            border: 1px solid var(--rule);
+            border-top: 4px solid var(--rule);
+            padding: 1rem 1rem 0.8rem;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.45), transparent 75%);
+        }
+
+        .lead p:first-of-type::first-letter,
+        .feature p:first-of-type::first-letter {
+            float: left;
+            font-size: 3.2rem;
+            line-height: 0.8;
+            margin-right: 0.32rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-indent: 0;
+        }
+
+        .lead .subdeck {
+            margin-top: 0.2rem;
+            font-style: italic;
+            font-size: 1.02rem;
+            color: var(--muted-ink);
+            text-indent: 0;
+        }
+
+        .left-column,
+        .right-column {
+            display: grid;
+            gap: 0.9rem;
+        }
+
+        .feature {
+            grid-column: 1 / span 2;
+        }
+
+        .mid-grid {
+            margin-top: 0.9rem;
+            display: grid;
+            grid-template-columns: 1.25fr 1fr 1fr;
+            gap: 0.9rem;
+        }
+
+        .briefs {
+            display: grid;
+            gap: 0.65rem;
+        }
+
+        .briefs div {
+            border-top: 1px dashed var(--rule);
+            padding-top: 0.55rem;
+        }
+
+        .briefs div:first-child {
+            border-top: 0;
+            padding-top: 0;
+        }
+
+        .quote-box {
+            margin-top: 0.8rem;
+            border-left: 4px solid var(--rule);
+            padding-left: 0.75rem;
+            font-size: 0.98rem;
+            font-style: italic;
+            color: #2d2922;
+            text-indent: 0;
+        }
+
+        .markets {
+            margin-top: 0.9rem;
+            border: 1px solid var(--rule);
+            padding: 0.75rem;
+            background: var(--paper-dark);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.86rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03rem;
+        }
+
+        th,
+        td {
+            border: 1px solid var(--rule);
+            padding: 0.35rem;
+            text-align: center;
+        }
+
+        .footer-band {
+            margin-top: 1rem;
+            border-top: 3px double var(--rule);
+            padding-top: 0.65rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.7rem;
+        }
+
+        .footer-band article {
+            min-height: 150px;
+        }
+
+        @media (max-width: 1080px) {
+            .front-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .lead {
+                grid-column: 1 / -1;
+            }
+
+            .feature {
+                grid-column: 1 / -1;
+            }
+
+            .mid-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .footer-band {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 680px) {
+            body {
+                padding: 0.8rem;
+            }
+
+            .newspaper {
+                padding: 0.8rem;
+            }
+
+            .front-grid,
+            .mid-grid,
+            .footer-band {
+                grid-template-columns: 1fr;
+            }
+
+            p {
+                font-size: 0.92rem;
+            }
+
+            .meta {
+                justify-content: center;
+                text-align: center;
+            }
+        }
+    </style>
 </head>
 <body>
-    Hello son!
-Ali Hosseini Khamenei[d] (19 April 1939 – 28 February 2026) was an Iranian politician and Shia cleric who served as the second supreme leader of Iran from 1989 until his assassination at the onset of the 2026 Iran war. He previously served as the third president of Iran from 1981 to 1989. His tenure as supreme leader, spanning 36 years and six months, made him the longest-serving head of state in the Middle East at the time of his death. He held the title of Ayatollah and was considered one of the world's leading maraji' of Twelver Shi'ism.
+    <main class="newspaper">
+        <header class="masthead">
+            <h1>The Morning Ledger</h1>
+            <div class="meta">
+                <span>Saturday Edition</span>
+                <span>Volume XLII No. 118</span>
+                <span>Price 2 Credits</span>
+            </div>
+        </header>
 
-Born into the Khamenei family, he studied at a hawza in his hometown of Mashhad, later settling in Qom in 1958, where he attended the classes of Ruhollah Khomeini. Khamenei became involved in opposition to Mohammad Reza Pahlavi, the Shah of Iran, and was arrested six times before being exiled for three years by the Shah's regime. Khamenei was a mainstream figure in the Iranian Revolution, and upon its success, held many posts in the newly established Islamic republic. In the aftermath of the revolution, he was the target of an attempted assassination that paralysed his right arm. There had been continued assassination threats against Khamenei by Israel. Khamenei served as the third president of Iran from 1981 to 1989 during the Iran–Iraq War, when he also developed close ties to the Islamic Revolutionary Guard Corps (IRGC). After the death and state funeral of Ruhollah Khomeini in 1989, Khamenei was elected supreme leader by the Assembly of Experts. During the deliberations, Khamenei expressed reservations about his religious qualifications and suitability for the position. As opposed to his predecessor, who held the rank of Grand Ayatollah, Khamenei was then a mid-ranking cleric and did not meet the constitutional requirement of marja'. The constitution was subsequently amended to remove that requirement, and the Assembly reconfirmed his leadership later that year.
+        <section class="front-grid">
+            <aside class="left-column">
+                <article>
+                    <p class="kicker">City Desk</p>
+                    <h3>Transit Hubs Echo With New Rhythm</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer at sollicitudin neque. Maecenas ac cursus libero, et fermentum dui.</p>
+                    <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed gravida, leo non hendrerit dapibus, nisl nibh ultrices urna.</p>
+                </article>
 
-SUJAY VIVEK ROCKS! TOO GOOD A FOOTBALL PLAYER
-He is 18 years older than you! Stupid food
+                <article>
+                    <p class="kicker">Culture</p>
+                    <h3>Gallery Nights Stretch Into Dawn</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sed dolor a lorem feugiat viverra. Duis non volutpat lorem.</p>
+                    <p>Aliquam erat volutpat. Proin accumsan ligula non odio vulputate, in iaculis nunc facilisis. Duis congue posuere lacus.</p>
+                </article>
+            </aside>
 
-Khamenei as a teenager
-Ali Hosseini Khamenei was born on 19 April 1939[8][17][18] to Javad Khamenei, an alim and mujtahid born in Najaf, Iraq,[8] and his second wife Khadijeh Mirdamadi (daughter of Hashem Mirdamadi) in Mashhad. He was the sixth of eight children, the third born to his mother.[19][20][21] Two of his brothers are also clerics; his younger brother, Hadi Khamenei, is a newspaper editor and cleric.[22] His elder sister Fatemeh Hosseini Khamenei died in 2015, aged 89.[23] His father was an ethnic Azerbaijani Turk from Khamaneh. His mother was an ethnic Persian from Yazd.[24][25][26][27][28]
+            <article class="lead">
+                <p class="kicker">Banner Story</p>
+                <h2>Parliament Square Reimagined After Decades of Delay</h2>
+                <p class="subdeck">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Sed commodo convallis sem, vel interdum nisl aliquam et.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sollicitudin erat at velit iaculis, vitae cursus odio laoreet. Duis efficitur velit leo, non rhoncus tortor fermentum quis. Sed eget nunc non erat faucibus luctus.</p>
+                <p>Morbi commodo, augue vel posuere malesuada, neque turpis volutpat risus, non viverra mi turpis in justo. Quisque congue orci ac porta sagittis. Vivamus in felis varius, tincidunt augue vel, gravida lectus.</p>
+                <p>Pellentesque feugiat sem in urna malesuada scelerisque. Suspendisse et nulla ut nulla pharetra vulputate. Nulla non aliquet nunc, in eleifend lorem.</p>
+            </article>
 
-Ali Khamenei's ancestor was Sayyid Hossein Tafreshi, a descendant of the Aftasi Sayyids supposedly reaching to Sultan ul-Ulama Ahmad, known as Sultan Sayyid, a grandchild of the fourth Imam of Shia Islam, Ali al-Sajjad.[8] Some of his ancestors are from Tafresh in today's Markazi Province and migrated from their original home in Tafresh to Khamaneh near Tabriz.[29][30][31]
+            <aside class="right-column">
+                <article>
+                    <p class="kicker">Global</p>
+                    <h3>Harbor Markets Reopen With Fresh Mandates</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer euismod dolor eu nulla elementum, id dapibus tortor sollicitudin.</p>
+                    <p>Donec eget elementum neque. Curabitur gravida tempus augue, at bibendum ipsum tincidunt vitae.</p>
+                </article>
 
-Khamenei's education began at the age of four, by learning the Quran at Maktab;[8] he spent his basic and advanced levels of seminary studies at the hawza of Mashhad, under mentors such as Sheikh Hashem Qazvini and Ayatollah Milani.[32]
+                <article>
+                    <p class="kicker">Weather</p>
+                    <h3>Cold Front Meets Bright Coastal Sun</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris aliquam metus quis odio vulputate faucibus.</p>
+                    <p>Phasellus tempor nisl sit amet libero egestas luctus. Integer sed dui id lorem faucibus fermentum.</p>
+                </article>
+            </aside>
+        </section>
 
-In Mashhad, he also frequented secular intellectuals as well the Movement of God-Worshipping Socialists, a political organization that advocated Islamic socialism and was influenced by figures such as Karl Marx, Che Guevara, Tito and Ali Shariati; Khamenei partook in their seminars and sermons, which for Abbas Milani would influence his later Third Worldism.[32] In 1957, he went to Najaf,[33] but soon returned to Mashhad due to his father's unwillingness to let him stay there. In 1958, he settled in Qom, where he attended the classes of Husayn Burujardi and Ruhollah Khomeini.[8] Like many other politically active clerics at the time, Khamenei was far more involved with politics than religious scholarship.[34]
-<br>
+        <section class="mid-grid">
+            <article class="feature">
+                <p class="kicker">Investigations</p>
+                <h2>Inside the Silent Logistics Chain Beneath the Capital</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam semper pellentesque ante, quis posuere felis tristique a. Pellentesque tempor, justo et faucibus consequat, nibh ipsum cursus augue, non feugiat ligula tellus in libero.</p>
+                <p>Sed luctus, magna quis sodales luctus, nisi est feugiat justo, eu laoreet dui nibh vitae ipsum. Quisque non dui tortor. Maecenas quis gravida turpis. Cras id sem in justo varius bibendum sit amet non lacus.</p>
+                <p>Nullam convallis est non consequat rhoncus. In vehicula, massa non feugiat faucibus, erat ex malesuada neque, in tristique lorem lectus id augue. Praesent ac lorem lacinia, volutpat sapien at, tincidunt massa.</p>
+                <p class="quote-box">"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae tortor non sem aliquam interdum, id consequat massa feugiat."</p>
+            </article>
 
-In later years, Khamenei described his upbringing in autobiographical reflections, portraying himself as raised in a deeply religious household. He stated that his mother came from a clerical family and that religious education shaped his childhood. He recalled excelling in his studies, reciting the Quran at school, and developing an early interest in hadith and prophetic narratives. He described family gatherings in which his mother recited Quranic verses, particularly those concerning the lives of the prophets. He emphasized his broad intellectual interests beyond religious scholarship, including mathematics, geography, and especially history.[35]
+            <article>
+                <p class="kicker">Opinion</p>
+                <h4>Editorial Board</h4>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque non odio id orci laoreet volutpat. Sed aliquet pharetra ex vitae faucibus.</p>
+                <p>Vestibulum porta feugiat felis sit amet dictum. Integer posuere, nibh in porta elementum, velit erat luctus mauris, sed pellentesque est justo id sem.</p>
+                <div class="briefs">
+                    <div>
+                        <h4>Letter One</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam porta arcu in nibh interdum.</p>
+                    </div>
+                    <div>
+                        <h4>Letter Two</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla fermentum ex vitae velit semper.</p>
+                    </div>
+                </div>
+            </article>
 
+            <article>
+                <p class="kicker">Science</p>
+                <h4>Lab Notes</h4>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque non augue sem. Vivamus ac felis ac purus efficitur porttitor.</p>
+                <p>Suspendisse interdum nibh vel luctus posuere. Fusce vel ipsum in odio gravida condimentum. Cras auctor sagittis ipsum, vel bibendum mauris.</p>
+                <div class="markets">
+                    <h4>Morning Index</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Desk</th>
+                                <th>Open</th>
+                                <th>Close</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>North</td>
+                                <td>104</td>
+                                <td>111</td>
+                            </tr>
+                            <tr>
+                                <td>South</td>
+                                <td>92</td>
+                                <td>89</td>
+                            </tr>
+                            <tr>
+                                <td>West</td>
+                                <td>76</td>
+                                <td>83</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </article>
+        </section>
 
+        <section class="footer-band">
+            <article>
+                <p class="kicker">Travel</p>
+                <h4>Rail Maps Return to Print</h4>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eu dui vitae lectus tristique vulputate ut ut libero.</p>
+            </article>
+            <article>
+                <p class="kicker">Sports</p>
+                <h4>Late Equalizer Shakes Northern Derby</h4>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi finibus augue eget purus congue, at suscipit lacus scelerisque.</p>
+            </article>
+            <article>
+                <p class="kicker">Business</p>
+                <h4>Foundries Expand Along River District</h4>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel orci condimentum, facilisis est non, porta velit.</p>
+            </article>
+            <article>
+                <p class="kicker">Weekend</p>
+                <h4>Festivals Fill Courtyards With Brass</h4>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultricies nisl non velit blandit, non tincidunt libero volutpat.</p>
+            </article>
+        </section>
+    </main>
 </body>
 </html>
